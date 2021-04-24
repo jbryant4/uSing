@@ -1,11 +1,9 @@
 // Global Variables 
 
-// Test Variables
-var artist = 'drake'
-var song = 'one dance'
-// Api call for Spotify
-function deezerSearchApi() {
-    var apiUrl = 'https://deezerdevs-deezer.p.rapidapi.com/search?q=' + artist;
+// Api call for Artist Search
+function deezerSearchApi(searchType, searchText) {
+
+    var apiUrl = 'https://deezerdevs-deezer.p.rapidapi.com/search?q=' + searchText;
 
     fetch(apiUrl, {
         "method": "GET",
@@ -17,21 +15,26 @@ function deezerSearchApi() {
         .then(function (response) {
             if (response.ok) {
                 response.json()
-                .then(function (data){
-                    console.log(data.data[0].title)  //grab song title 
-                    console.log(data.data[0].album.cover) //song album cover   
-                    console.log(data.data[0].preview) //song album cover   
-                });
+                    .then(function (data) {
+                        if (searchType === 'Artist') {
+
+                            audiodbApi(searchText);
+
+                        } else if (searchType === 'Tracks') {
+
+                            displaySongList(data);
+
+                        }
+                    });
             };
 
         });
 };
 
 
-deezerSearchApi()
-
 // Api call for Audiodb(bio)
-function audiodbApi() {
+function audiodbApi(artist) {
+    
     var apiUrl = 'https://www.theaudiodb.com/api/v1/json/1/search.php?s=' + artist
 
     fetch(apiUrl)
@@ -39,22 +42,31 @@ function audiodbApi() {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
+                        console.log(data.artists);
+                        if(data.artists === null ){
+
+                            console.log('not and artist');
+
+                        } else {
+
                         console.log(data.artists[0].strBiographyEN)  //grab bio
                         console.log(data.artists[0].strArtistThumb)  //grab thumb photo
+
+                        };
                     });
             };
         });
 };
 
-// audiodbApi() un comment to run function 
 
 // Api call for Bandsintown (upcoming event)
 
-function bandsintownApi() {
-    var apiKey = '4874927f-ca28-438a-b6af-43773b79657a'
-    var apiUrl = 'https://rest.bandsintown.com/v4/artists/' + artist + '/events/?app_id=yOUrSuP3r3ven7aPp-id'
+function tmApi() {
+    var apiKey = 'GvuG9sFzxt6XO7L3yZz0IgWgb4upTz6D'
+    var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=1&keyword=' + artist + '&apikey=' + apiKey
+    
 
-    fetch(apiUrl, { headers: { accept: 'application/json' } })
+    fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
                 response.json()
@@ -64,8 +76,10 @@ function bandsintownApi() {
             };
         });
 };
-// ! getting error will try and fix 
-// bandsintownApi()
+
+// tmApi()
+
+
 // Api call for Lyrics (song lyrics)
 function lyricApi() {
     var apiUrl = 'https://api.lyrics.ovh/v1/' + artist + '/' + song
@@ -86,3 +100,20 @@ function lyricApi() {
 
 // Function to load page from local Storage
 // Function to save searches to local Storage
+// Function for search
+$('.searchBtn').each(function () {
+    $(this).on('click', function (event) {
+        event.preventDefault();
+
+        // grab input text and button text
+        var searchType = $(this).text().trim();
+        var searchText = $('#search-bar').val().trim();
+
+        // clear text area 
+        $('#search-bar').val('');
+
+        // send to search function
+        deezerSearchApi(searchType, searchText);
+    });
+});
+
