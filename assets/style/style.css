@@ -1,0 +1,62 @@
+body {
+    background-color: black;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#searchbar {
+    background-color: white;    
+    text-align: center;
+    width: 55%; 
+    border: none;
+    pointer-events: fill;       
+}
+
+.containerhold {       
+    display: flex;
+    flex-direction: row;
+}
+
+.trackslyrics {
+    margin: 5px;
+    background-color: white;
+    height: 500px;
+    width: 350px;
+    border-radius: 12px;
+}
+
+form {    
+    display:flex;
+    flex-direction:row;     
+    border:1px solid grey;    
+    padding:6px;
+    background-color: white;
+    border-radius: 12px;
+    width: 50%;
+}
+
+input {    
+    flex-grow:2;    
+    border:none;
+}
+
+input:focus {    
+    outline: none;
+    border-bottom: 0px;
+}
+
+button {        
+    background:rgba(14,201,158,255);
+    color:black;
+    border-radius: 12px;
+    margin-left: 5px;
+}
+
+
+
