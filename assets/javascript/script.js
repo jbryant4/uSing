@@ -1,28 +1,34 @@
 // Global Variables 
-var spotifyAuth = 'BQAkLl-vlm9D59bFA7L8ZGVnQuTXgpFt5sgbkmR86pjQTej5q_cugrYuJgWMpYBFhIISkQ0PjldK0jshQhoEKGUpNdZ0vv8dOeTgRzqol-F-w7-5g0XVmH2Q4JvAV88WeeDFKYkvboJUbqk'
+
 // Test Variables
 var artist = 'drake'
 var song = 'one dance'
 // Api call for Spotify
-function spotifySearchApi() {
-    var apiUrl = 'https://api.spotify.com/v1/search?q=' + artist + '&type=artist&market=US&limit=5'
+function deezerSearchApi() {
+    var apiUrl = 'https://deezerdevs-deezer.p.rapidapi.com/search?q=' + artist;
 
     fetch(apiUrl, {
-        headers: {authorization: 'Bearer ' + spotifyAuth}
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "3eecc6021amshac1c709273a57dfp1b6f7bjsnc415d9bda09d",
+            "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com"
+        }
     })
         .then(function (response) {
             if (response.ok) {
                 response.json()
-                    .then(function (data) {
-                        console.log(data.artists.items[0].id)  //grab id
-                        console.log(data.artists.items[0].name) // grab name 
-                    });
+                .then(function (data){
+                    console.log(data.data[0].title)  //grab song title 
+                    console.log(data.data[0].album.cover) //song album cover   
+                    console.log(data.data[0].preview) //song album cover   
+                });
             };
+
         });
 };
 
-// spotifyApi()  un comment to run function
 
+deezerSearchApi()
 
 // Api call for Audiodb(bio)
 function audiodbApi() {
@@ -46,9 +52,9 @@ function audiodbApi() {
 
 function bandsintownApi() {
     var apiKey = '4874927f-ca28-438a-b6af-43773b79657a'
-    var apiUrl = 'https://rest.bandsintown.com/artists/' + artist + '/events?app_id=' + apiKey +'&date=upcoming'
+    var apiUrl = 'https://rest.bandsintown.com/v4/artists/' + artist + '/events/?app_id=yOUrSuP3r3ven7aPp-id'
 
-    fetch(apiUrl, {headers: {accept: 'application/json'}})
+    fetch(apiUrl, { headers: { accept: 'application/json' } })
         .then(function (response) {
             if (response.ok) {
                 response.json()
@@ -59,7 +65,7 @@ function bandsintownApi() {
         });
 };
 // ! getting error will try and fix 
-// bandsintownApi() un comment to run function 
+// bandsintownApi()
 // Api call for Lyrics (song lyrics)
 function lyricApi() {
     var apiUrl = 'https://api.lyrics.ovh/v1/' + artist + '/' + song
