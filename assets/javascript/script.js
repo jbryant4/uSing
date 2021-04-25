@@ -18,11 +18,15 @@ function deezerSearchApi(searchType, searchText) {
                     .then(function (data) {
                         if (searchType === 'Artist') {
 
+                            // check if artist
                             audiodbApi(searchText);
+                            // display top 25 songs by artist
+                            displaySongList(data.data, searchType);
+
 
                         } else if (searchType === 'Tracks') {
 
-                            displaySongList(data);
+                            displaySongList(data.data, searchType);
 
                         }
                     });
@@ -31,10 +35,53 @@ function deezerSearchApi(searchType, searchText) {
         });
 };
 
+// list results from song search 
+function displaySongList(data, searchType) {
+    // set for loop length depending on the searchType
+    if (searchType === 'Artist') {
+        var loopLength = data.length;
+    } else if (searchType === 'Tracks') {
+        var loopLength = 5;
+    };
+console.log(data)
+    // run for loop to display tracks on the page 
+    // for (i = 0; i <= loopLength - 1; i++) {
+        // grab all elements
+        var i = 0; 
+        songTitle = data[i].title;
+        songArtist = data[i].artist.name;
+        songAlbumTitle = data[i].album.title;
+        songAlbumCover = data[i].album.cover_small;
+        songPreview = data[i].preview;
+
+        var trackDiv = $('<div>').addClass('row')
+        var trackInfo = $('<div>').addClass('col s8');
+        var previewDiv = $('<div>').addClass('col s4').text('preview');
+
+        var trackAlbumCover = $('<img>').attr({'src':songAlbumCover, 'alt':'Album Cover'});
+        var trackTitle = $('<p>').text(songTitle);
+        var trackArtist = $('<p>').text(songArtist);
+        
+        //! still need to figure out auto 
+        // var songPreview = $('<audio>').addClass('col s3').attr('src',songPreview);
+
+        trackInfo.append(trackAlbumCover);
+        trackInfo.append(trackTitle);
+        trackInfo.append(trackArtist);
+
+        trackDiv.append(trackInfo);
+        trackDiv.append(previewDiv);
+
+        $('#tracks').append(trackDiv);
+    // }
+    //! still need the tracks to show up nice 
+    // make a div that can hold the album cover/songtitle + songartist in colums
+};
+
 
 // Api call for Audiodb(bio)
 function audiodbApi(artist) {
-    
+
     var apiUrl = 'https://www.theaudiodb.com/api/v1/json/1/search.php?s=' + artist
 
     fetch(apiUrl)
@@ -42,15 +89,20 @@ function audiodbApi(artist) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        console.log(data.artists);
-                        if(data.artists === null ){
+                        if (data.artists === null) {
 
-                            console.log('not and artist');
+                            // put modal here 
+                            alert('not and artist');
+                            location.reload();
 
                         } else {
 
-                        console.log(data.artists[0].strBiographyEN)  //grab bio
-                        console.log(data.artists[0].strArtistThumb)  //grab thumb photo
+                            var artistBio = data.artists[0].strBiographyEN  //grab bio
+                            var artistThumb = data.artists[0].strArtistThumb  //grab thumb photo
+
+                            // build bio section
+                            buildBio(artistBio, artistThumb);
+
 
                         };
                     });
@@ -58,13 +110,25 @@ function audiodbApi(artist) {
         });
 };
 
+function buildBio(bio, thumb) {
 
-// Api call for Bandsintown (upcoming event)
+    // set variables 
+    var bioDiv = $('<div>').addClass('bio-div');
+    var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist' });
+    var bioText = $('<p>').text(bio);
 
+    // make a bio div
+    bioDiv.append(bioImg);
+    bioDiv.append(bioText);
+    // ! append to the page whereever we want 
+
+}
+
+// Api call for TicketMaster (upcoming event)
 function tmApi() {
     var apiKey = 'GvuG9sFzxt6XO7L3yZz0IgWgb4upTz6D'
     var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=1&keyword=' + artist + '&apikey=' + apiKey
-    
+
 
     fetch(apiUrl)
         .then(function (response) {
@@ -76,9 +140,6 @@ function tmApi() {
             };
         });
 };
-
-// tmApi()
-
 
 // Api call for Lyrics (song lyrics)
 function lyricApi() {
@@ -95,11 +156,11 @@ function lyricApi() {
         });
 };
 
-// lyricApi() un comment to run function 
 
 
 // Function to load page from local Storage
 // Function to save searches to local Storage
+
 // Function for search
 $('.searchBtn').each(function () {
     $(this).on('click', function (event) {
