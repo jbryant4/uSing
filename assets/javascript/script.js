@@ -43,36 +43,36 @@ function displaySongList(data, searchType) {
     } else if (searchType === 'Tracks') {
         var loopLength = 5;
     };
-console.log(data)
+
     // run for loop to display tracks on the page 
     // for (i = 0; i <= loopLength - 1; i++) {
-        // grab all elements
-        var i = 0; 
-        songTitle = data[i].title;
-        songArtist = data[i].artist.name;
-        songAlbumTitle = data[i].album.title;
-        songAlbumCover = data[i].album.cover_small;
-        songPreview = data[i].preview;
+    // grab all elements
+    var i = 0;
+    songTitle = data[i].title;
+    songArtist = data[i].artist.name;
+    songAlbumTitle = data[i].album.title;
+    songAlbumCover = data[i].album.cover_small;
+    songPreview = data[i].preview;
 
-        var trackDiv = $('<div>').addClass('row')
-        var trackInfo = $('<div>').addClass('col s8');
-        var previewDiv = $('<div>').addClass('col s4').text('preview');
+    var trackDiv = $('<div>').addClass('row')
+    var trackInfo = $('<div>').addClass('col s8');
+    var previewDiv = $('<div>').addClass('col s4').text('preview');
 
-        var trackAlbumCover = $('<img>').attr({'src':songAlbumCover, 'alt':'Album Cover'});
-        var trackTitle = $('<p>').text(songTitle);
-        var trackArtist = $('<p>').text(songArtist);
-        
-        //! still need to figure out auto 
-        // var songPreview = $('<audio>').addClass('col s3').attr('src',songPreview);
+    var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover' });
+    var trackTitle = $('<p>').text(songTitle);
+    var trackArtist = $('<p>').text(songArtist);
 
-        trackInfo.append(trackAlbumCover);
-        trackInfo.append(trackTitle);
-        trackInfo.append(trackArtist);
+    //! still need to figure out audio 
+    // var songPreview = $('<audio>').addClass('col s3').attr('src',songPreview);
 
-        trackDiv.append(trackInfo);
-        trackDiv.append(previewDiv);
+    trackInfo.append(trackAlbumCover);
+    trackInfo.append(trackTitle);
+    trackInfo.append(trackArtist);
 
-        $('#tracks').append(trackDiv);
+    trackDiv.append(trackInfo);
+    trackDiv.append(previewDiv);
+
+    $('#tracks').append(trackDiv);
     // }
     //! still need the tracks to show up nice 
     // make a div that can hold the album cover/songtitle + songartist in colums
@@ -102,7 +102,7 @@ function audiodbApi(artist) {
 
                             // build bio section
                             buildBio(artistBio, artistThumb);
-
+                            tmApi(artist)
 
                         };
                     });
@@ -110,6 +110,7 @@ function audiodbApi(artist) {
         });
 };
 
+// function to display the bio and rhumb to the page 
 function buildBio(bio, thumb) {
 
     // set variables 
@@ -125,9 +126,9 @@ function buildBio(bio, thumb) {
 }
 
 // Api call for TicketMaster (upcoming event)
-function tmApi() {
+function tmApi(artist) {
     var apiKey = 'GvuG9sFzxt6XO7L3yZz0IgWgb4upTz6D'
-    var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=1&keyword=' + artist + '&apikey=' + apiKey
+    var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=5&keyword=' + artist + '&apikey=' + apiKey
 
 
     fetch(apiUrl)
@@ -135,11 +136,26 @@ function tmApi() {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        console.log(data);
+                        futureEvents(data);
                     });
             };
         });
 };
+
+// function to display furture events 
+function futureEvents(data) {
+
+    console.log(data)
+    var eventDate = data._embedded.events[0].dates.start.localDate;
+    var eventTime = data._embedded.events[0].dates.start.localTime;
+    var eventCity = data._embedded.events[0]._embedded.venues[0].city.name;
+    var eventCountry = data._embedded.events[0]._embedded.venues[0].country.countryCode;
+    var eventLink = data._embedded.events[0].url;
+
+    console.log(eventDate, eventTime, eventCity, eventCountry, eventLink)
+
+    //! make a for loop for the 5 events and append to the page 
+}
 
 // Api call for Lyrics (song lyrics)
 function lyricApi() {
@@ -150,12 +166,18 @@ function lyricApi() {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        console.log(data.lyrics) // grab lyrics 
+                        displayLyrics(data.lyrics) // grab lyrics 
                     });
             };
         });
 };
 
+// funciton to display lyrics on page
+function displayLyrics(lyrics) {
+
+    console.log(lyrics)
+
+}
 
 
 // Function to load page from local Storage
