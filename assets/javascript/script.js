@@ -2,6 +2,8 @@
 
 // Api call for Artist Search
 function deezerSearchApi(searchType, searchText) {
+    // give a class to the for form section
+    $('#form-section').addClass('l3')
 
     var apiUrl = 'https://deezerdevs-deezer.p.rapidapi.com/search?q=' + searchText;
 
@@ -20,11 +22,21 @@ function deezerSearchApi(searchType, searchText) {
 
                             // check if artist
                             audiodbApi(searchText);
+
+                            // make artist content section visable and hide track section
+                            $('.track-search').hide(1000);
+                            $('.artist-search').show(1000);
+
                             // display top 25 songs by artist
                             displaySongList(data.data, searchType);
 
 
-                        } else if (searchType === 'Tracks') {
+
+                        } else if (searchType === 'Track') {
+
+                            // make track content section visable and hide artist section
+                            $('.artist-search').hide(1000);
+                            $('.track-search').show(1000);
 
                             displaySongList(data.data, searchType);
 
@@ -72,7 +84,7 @@ function displaySongList(data, searchType) {
     trackDiv.append(trackInfo);
     trackDiv.append(previewDiv);
 
-    $('#tracks').append(trackDiv);
+    
     // }
     //! still need the tracks to show up nice 
     // make a div that can hold the album cover/songtitle + songartist in colums
@@ -195,8 +207,11 @@ $('.searchBtn').each(function () {
         // clear text area 
         $('#search-bar').val('');
 
+        
+
         // send to search function
         deezerSearchApi(searchType, searchText);
     });
 });
+
 

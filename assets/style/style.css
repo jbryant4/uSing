@@ -2,26 +2,17 @@ body {
     background-color: black;
 }
 
-.container {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
+
 
 #searchbar {
     background-color: white;    
     text-align: center;
-    width: 55%; 
+    width: 100%; 
     border: none;
     pointer-events: fill;       
 }
 
-.containerhold {       
-    display: flex;
-    flex-direction: row;
-}
+
 
 .trackslyrics {
     margin: 5px;
@@ -31,18 +22,23 @@ body {
     border-radius: 12px;
 }
 
-form {    
-    display:flex;
-    flex-direction:row;     
+form {  
     border:1px solid grey;    
     padding:6px;
     background-color: white;
     border-radius: 12px;
-    width: 50%;
+    
 }
 
+.searchBtn , #form-p {
+    width: 100%;
+    font-size: large;
+    font-weight: 700;
+    margin: 5px auto ;
+    text-align: center;
+}
 input {    
-    flex-grow:2;    
+    width: 100%;  
     border:none;
 }
 
@@ -58,5 +54,18 @@ button {
     margin-left: 5px;
 }
 
+.artist-search, .track-search {
+    color: white;
+}
 
+#form-section {
+    margin: auto;
+}
 
+#form-img{
+    text-align: center;
+}
+
+#page-contents {
+    align-items: center;
+}
