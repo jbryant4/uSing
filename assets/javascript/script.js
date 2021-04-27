@@ -75,7 +75,7 @@ function displaySongList(data, searchType) {
 
         //! still need to figure out audio 
         var songPreview = $('<button>').addClass('preview-btn').attr({ song: songPreview, title: songTitle, artist: songArtist, album: songAlbumTitle }).text('Play');
-
+        
         imgDiv.append(trackAlbumCover);
 
         trackInfo.append(trackTitle);
@@ -299,6 +299,7 @@ $('#delete-btn').on('click', function (event) {
     localStorage.clear();
 });
 
+//  ! note to self add class generated to all generated content so that i can clear you you with out lines and lines of code 
 
 // function for when search buttons are clicked 
 $('#saved-search').on('click', 'button', function (event) {
@@ -317,10 +318,10 @@ function trackDisplay(song, artist, album) {
     var trackArt = $('<p>').text('By: ' + artist);
     var trackAlb = $('<p>').text('From the Album: ' + album);
 
-    console.log(trackTi,trackArt, trackAlb)
-    $('.track-info').append(trackTi);
-    $('.track-info').append(trackArt);
-    $('.track-info').append(trackAlb);
+    console.log(trackTi, trackArt, trackAlb)
+    $('.track-art-alb').append(trackTi);
+    $('.track-art-alb').append(trackArt);
+    $('.track-art-alb').append(trackAlb);
 }
 
 $('.track-list').on('click', 'button', function (event) {
@@ -329,17 +330,35 @@ $('.track-list').on('click', 'button', function (event) {
     var songTitle = $(this).attr('title');
     var songArtist = $(this).attr('artist');
     var songAlbum = $(this).attr('album');
-    
+
     lyricApi(songTitle, songArtist);
 
     trackDisplay(songTitle, songArtist, songAlbum);
 
-    var songPreview = $(this).attr('song');
-    var audio = new Audio(songPreview);
-    console.log(audio)
-    audio.play();
+    // var songPreview = $(this).attr('song');
+    // var audio = new Audio(songPreview);
+    console.log($(this))
+    var songLink= $(this).attr('song');
+    var audio = new Audio(songLink);
 
+    if (paused === true) {
+       paused = false;
+        return audio.play();
 
+    } else {
+       paused = true;
+        $('audio').remove();
+        // return audio.pause()
+    }
 });
+
+var paused = true;
+function isPlaying(audio) {
+console.log(audio)
+    
+    console.log(isPlaying(audio))
+
+}
+
 
 loadSearch();
