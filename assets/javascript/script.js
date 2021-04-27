@@ -64,18 +64,18 @@ function displaySongList(data, searchType) {
         songAlbumCover = data[i].album.cover_small;
         songPreview = data[i].preview;
 
-        var trackInfo = $('<div>').addClass('track-info')
-        var imgDiv = $('<div>').addClass('img-div')
-        var trackDiv = $('<div>').addClass('track')
+        var trackInfo = $('<div>').addClass('track-info generated')
+        var imgDiv = $('<div>').addClass('img-div generated')
+        var trackDiv = $('<div>').addClass('track generated')
 
 
-        var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' });
-        var trackTitle = $('<p>').text(songTitle);
-        var trackArtist = $('<p>').text('By:' + songArtist);
+        var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
+        var trackTitle = $('<p>').text(songTitle).addClass('generated');
+        var trackArtist = $('<p>').text('By: ' + songArtist).addClass('generated');
 
         //! still need to figure out audio 
-        var songPreview = $('<button>').addClass('preview-btn').attr({ song: songPreview, title: songTitle, artist: songArtist, album: songAlbumTitle }).text('Play');
-        
+        var songPreview = $('<button>').addClass('preview-btn generated').attr({ song: songPreview, title: songTitle, artist: songArtist, album: songAlbumTitle }).text('Play');
+
         imgDiv.append(trackAlbumCover);
 
         trackInfo.append(trackTitle);
@@ -127,8 +127,8 @@ function audiodbApi(artist) {
 function buildBio(bio, thumb) {
 
     // set variables 
-    var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist', 'id': 'bio-img' });
-    var bioText = $('<p>').text(bio);
+    var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist', 'id': 'bio-img' }).addClass('generated');
+    var bioText = $('<p>').text(bio).addClass('generated');
 
     // make a bio div
     $('#bio-thumb').append(bioImg);
@@ -161,7 +161,7 @@ function futureEvents(data) {
 
         var noEvents = $('<p>')
             .text('This Artist does not have any upcoming events. Sorry!')
-            .attr('id', 'no-events');
+            .attr('id', 'no-events').addClass('generated');
 
         $('#future-events').append(noEvents);
     }
@@ -177,13 +177,13 @@ function futureEvents(data) {
         var eventLink = data._embedded.events[i].url;
 
         // create element
-        var eventDiv = $('<div>').addClass('col s6 m3 events');
+        var eventDiv = $('<div>').addClass('col s6 m3 events generated');
 
         // create html elements
-        var name = $('<h4>').text(eventName);
-        var date = $('<p>').addClass('event-text').text('Date:' + eventDate + ' @ ' + eventTime);
-        var city = $('<p>').addClass('event-text').text('City' + eventCity + ', ' + eventCountry);
-        var link = $('<a>').addClass('event-text').text('Click Here for more Details').attr('href', eventLink)
+        var name = $('<h4>').text(eventName).addClass('generated');
+        var date = $('<p>').addClass('event-text generated').text('Date:' + eventDate + ' @ ' + eventTime);
+        var city = $('<p>').addClass('event-text generated').text('City' + eventCity + ', ' + eventCountry);
+        var link = $('<a>').addClass('event-text generated').text('Click Here for more Details').attr('href', eventLink)
 
         // apend to the page
         eventDiv.append(name);
@@ -277,9 +277,18 @@ $('.searchBtn').each(function () {
     $(this).on('click', function (event) {
         event.preventDefault();
 
+        // clear all previous generated content 
+        $('.generated').remove();
+
         // grab input text and button text
         var searchType = $(this).text().trim();
         var searchText = $('#search-bar').val().trim();
+
+        // make sure that their is text in search bar
+        if (searchText === '') {
+            alert('need search input') //! add modal
+            window.location.reload();
+        }
 
         // clear text area 
         $('#search-bar').val('');
@@ -309,14 +318,17 @@ $('#saved-search').on('click', 'button', function (event) {
     var searchType = $(this).attr('search');
     var searchText = $(this).text().trim();
 
+    // clear all previous generated content 
+    $('.generated').remove();
+
     deezerSearchApi(searchType, searchText);
 });
 
 function trackDisplay(song, artist, album) {
     console.log(song, artist, album)
-    var trackTi = $('<p>').text('Song Title: ' + song);
-    var trackArt = $('<p>').text('By: ' + artist);
-    var trackAlb = $('<p>').text('From the Album: ' + album);
+    var trackTi = $('<p>').text('Song Title: ' + song).addClass('generated');
+    var trackArt = $('<p>').text('By: ' + artist).addClass('generated');
+    var trackAlb = $('<p>').text('From the Album: ' + album).addClass('generated');
 
     console.log(trackTi, trackArt, trackAlb)
     $('.track-art-alb').append(trackTi);
@@ -324,6 +336,7 @@ function trackDisplay(song, artist, album) {
     $('.track-art-alb').append(trackAlb);
 }
 
+// play track preview
 $('.track-list').on('click', 'button', function (event) {
     event.preventDefault();
 
@@ -338,27 +351,20 @@ $('.track-list').on('click', 'button', function (event) {
     // var songPreview = $(this).attr('song');
     // var audio = new Audio(songPreview);
     console.log($(this))
-    var songLink= $(this).attr('song');
+    var songLink = $(this).attr('song');
     var audio = new Audio(songLink);
 
     if (paused === true) {
-       paused = false;
+        paused = false;
         return audio.play();
 
     } else {
-       paused = true;
+        paused = true;
         $('audio').remove();
         // return audio.pause()
     }
 });
 
-var paused = true;
-function isPlaying(audio) {
-console.log(audio)
-    
-    console.log(isPlaying(audio))
-
-}
 
 
 loadSearch();
