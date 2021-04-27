@@ -73,8 +73,12 @@ function displaySongList(data, searchType) {
         var trackTitle = $('<p>').text(songTitle).addClass('generated');
         var trackArtist = $('<p>').text('By: ' + songArtist).addClass('generated');
 
-        //! still need to figure out audio 
-        var songPreview = $('<button>').addClass('preview-btn generated').attr({ song: songPreview, title: songTitle, artist: songArtist, album: songAlbumTitle }).text('Play');
+
+        // ! TEST 
+        var songBtn = $('<audio>').addClass('generated').attr('controls', '');
+        var songSource = $('<source>').attr({ src: songPreview, type: 'audio/mpeg' })
+        songBtn.append(songSource)
+
 
         imgDiv.append(trackAlbumCover);
 
@@ -83,7 +87,7 @@ function displaySongList(data, searchType) {
 
         trackDiv.append(imgDiv);
         trackDiv.append(trackInfo);
-        trackDiv.append(songPreview);
+        trackDiv.append(songBtn);
 
         $('.track-list').append(trackDiv)
     }
@@ -216,7 +220,7 @@ function displayLyrics(lyrics) {
 
     $('.lyrics').html("");
 
-    var ogLyrics = $('<pre>').text(lyrics)
+    var ogLyrics = $('<pre>').text(lyrics).addClass('generated')
     $('.lyrics').append(ogLyrics);
 
 
@@ -280,15 +284,17 @@ $('.searchBtn').each(function () {
         // clear all previous generated content 
         $('.generated').remove();
 
-        // grab input text and button text
-        var searchType = $(this).text().trim();
         var searchText = $('#search-bar').val().trim();
-
         // make sure that their is text in search bar
         if (searchText === '') {
             alert('need search input') //! add modal
             window.location.reload();
-        }
+        } else {
+        // grab input text and button text
+        var searchType = $(this).text().trim();
+        var searchText = $('#search-bar').val().trim();
+
+
 
         // clear text area 
         $('#search-bar').val('');
@@ -297,6 +303,7 @@ $('.searchBtn').each(function () {
         saveSearch(searchType, searchText)
         // send to search function
         deezerSearchApi(searchType, searchText);
+        }
     });
 });
 
@@ -348,21 +355,6 @@ $('.track-list').on('click', 'button', function (event) {
 
     trackDisplay(songTitle, songArtist, songAlbum);
 
-    // var songPreview = $(this).attr('song');
-    // var audio = new Audio(songPreview);
-    console.log($(this))
-    var songLink = $(this).attr('song');
-    var audio = new Audio(songLink);
-
-    if (paused === true) {
-        paused = false;
-        return audio.play();
-
-    } else {
-        paused = true;
-        $('audio').remove();
-        // return audio.pause()
-    }
 });
 
 
