@@ -57,13 +57,12 @@ button {
 
 .artist-search, .track-search {
     color: white;
-    visibility: hidden;
-    max-height: 0;
+    
 }
 
 #form-section {
     margin: auto;
-    width: 40%;    
+        
 }
 
 .container {
