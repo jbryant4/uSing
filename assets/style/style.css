@@ -37,6 +37,7 @@ form {
     margin: 5px auto ;
     text-align: center;
 }
+
 input {    
     width: 100%;  
     border:none;
@@ -56,14 +57,21 @@ button {
 
 .artist-search, .track-search {
     color: white;
+    visibility: hidden;
+    max-height: 0;
 }
 
 #form-section {
     margin: auto;
+    width: 40%;    
+}
+
+.container {
+    
 }
 
 #form-img{
-    text-align: center;
+    text-align: center;    
 }
 
 #page-contents {
@@ -108,7 +116,6 @@ button {
 }
 
 .track-list , .lyrics {
-
     max-height: 400px;
     overflow: auto;
 
@@ -135,14 +142,12 @@ button {
 .imgDiv {
     width: 25%;
 }
+
 .imgDiv img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    
+    object-fit: contain;    
 }
-
-
 
 .track-info p {
     width: 75%;
