@@ -69,3 +69,21 @@ button {
 #page-contents {
     align-items: center;
 }
+
+.saved-btn {
+    width: 100%;
+    font-size: large;
+    font-weight: 700;
+    margin: 5px auto ;
+    text-align: center;
+    background-color: lightgray;
+}
+
+#delete-btn { 
+    width: 100%;
+    font-size: large;
+    font-weight: 700;
+    margin: 5px auto ;
+    text-align: center;
+    background-color: orangered;
+}

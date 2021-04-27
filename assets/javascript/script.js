@@ -84,7 +84,7 @@ function displaySongList(data, searchType) {
     trackDiv.append(trackInfo);
     trackDiv.append(previewDiv);
 
-    
+
     // }
     //! still need the tracks to show up nice 
     // make a div that can hold the album cover/songtitle + songartist in colums
@@ -193,9 +193,55 @@ function displayLyrics(lyrics) {
 
 
 // Function to load page from local Storage
-// Function to save searches to local Storage
+function loadSearch() {
+    var searchList = localStorage.getItem("searchList");
 
-// Function for search
+    if (searchList === null) {
+        console.log("empty");
+    } else {
+        var searchList = JSON.parse(searchList);
+
+        for (i = 0; i < searchList.length; i++) {
+
+            searchText = searchList[i].searchText;
+            searchType = searchList[i].searchType;
+            // create button with class
+            var savedBtn = $("<button>").text(searchText).addClass('saved-btn').attr('search', searchType);
+
+            // apend to page
+            $('#saved-search').append(savedBtn);
+            ;
+        }
+    }
+};
+
+// Function to save searches to local Storage
+function saveSearch(searchType, searchText) {
+
+    // create button with class
+    var savedBtn = $("<button>").text(searchText).addClass('saved-btn').attr('search', searchType);
+
+    // apend to page
+    $('#saved-search').append(savedBtn);
+
+    // check if their is a local storage
+    var searchList = localStorage.getItem("searchList");
+
+    if (searchList === null) {
+
+        var listObj = JSON.stringify([{ searchType: searchType, searchText: searchText }]);
+        var searchList = localStorage.setItem("searchList", listObj);
+
+    } else {
+
+        searchList = JSON.parse(searchList);
+        searchList.push({ searchType: searchType, searchText: searchText });
+        localStorage.setItem("searchList", JSON.stringify(searchList));
+    }
+
+};
+
+// Function for search btns
 $('.searchBtn').each(function () {
     $(this).on('click', function (event) {
         event.preventDefault();
@@ -207,11 +253,33 @@ $('.searchBtn').each(function () {
         // clear text area 
         $('#search-bar').val('');
 
-        
-
+        // save search function
+        saveSearch(searchType, searchText)
         // send to search function
         deezerSearchApi(searchType, searchText);
     });
 });
 
+// delete button function
+$('#delete-btn').on('click', function (event) {
+    event.preventDefault
+    // clear local storage and search history div
+    $('#saved-search').empty();
+    localStorage.clear();
+});
 
+
+// function for when search buttons are clicked 
+$('#saved-search').on('click','button', function (event) {
+    event.preventDefault();
+    
+    // grab input text and button text
+    var searchType = $(this).attr('search');
+    var searchText = $(this).text().trim();
+    console.log(searchType)
+
+    deezerSearchApi(searchType, searchText);
+});
+
+
+loadSearch();
