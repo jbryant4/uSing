@@ -180,6 +180,8 @@ function futureEvents(data) {
 
         // create element
         var eventDiv = $('<div>').addClass('col s6 m3 events generated');
+        var childDiv = $('<div>').addClass('childEvent z-depth-2')
+        eventDiv.append(childDiv)
 
         // create html elements
         var name = $('<h4>').text(eventName).addClass('generated');
@@ -188,10 +190,10 @@ function futureEvents(data) {
         var link = $('<a>').addClass('event-text generated').text('Click Here for more Details').attr('href', eventLink)
 
         // apend to the page
-        eventDiv.append(name);
-        eventDiv.append(date);
-        eventDiv.append(city);
-        eventDiv.append(link);
+        childDiv.append(name);
+        childDiv.append(date);
+        childDiv.append(city);
+        childDiv.append(link);
 
         $('#future-events').append(eventDiv);
 
