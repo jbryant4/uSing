@@ -87,13 +87,17 @@ button {
     background-color: lightgray;
 }
 
-#delete-btn { 
+.deleteBtn { 
     width: 100%;
     font-size: large;
     font-weight: 700;
     margin: 5px auto ;
     text-align: center;
-    background-color: orangered;
+    background-color: orangered;       
+}
+
+.deleteBtn:hover {
+    background-color: red;
 }
 
 .bio {
@@ -112,14 +116,21 @@ button {
 }
 
 .events {
-    border: 3px solid white;
+    border: 3px solid rgba(14,201,158,255);    
+    border-radius: 5px;    
+    justify-content: space-evenly;
 }
 
 .track-list , .lyrics {
     max-height: 400px;
-    overflow: auto;
-
+    overflow: auto;    
 } 
+
+#longer-track {
+    max-height: 750px;    
+    margin-top: 100px
+}
+
 .track {
     display: flex;
     width: 100%;
@@ -171,8 +182,4 @@ button {
 ::-webkit-scrollbar-thumb {
     background: rgba(14,201,158,255);
     border-radius: 10px;
-}
-
-@media screen {
-    
 }

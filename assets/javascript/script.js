@@ -50,7 +50,7 @@ function displaySongList(data, searchType) {
     if (searchType === 'Artist') {
         var loopLength = data.length;
     } else if (searchType === 'Track') {
-        var loopLength = 5;
+        var loopLength = 10;
     };
 
     // run for loop to display tracks on the page 
@@ -242,8 +242,8 @@ function loadSearch() {
             searchText = searchList[i].searchText;
             searchType = searchList[i].searchType;
             // create button with class
-            var savedBtn = $("<button>").text(searchText).addClass('saved-btn').attr('search', searchType);
-
+            var savedBtn = $("<button>").text(searchText).addClass('waves-effect waves-light btn saved-btn').attr('search', searchType);
+            
             // apend to page
             $('#saved-search').append(savedBtn);
             ;
@@ -255,7 +255,7 @@ function loadSearch() {
 function saveSearch(searchType, searchText) {
 
     // create button with class
-    var savedBtn = $("<button>").text(searchText).addClass('saved-btn').attr('search', searchType);
+    var savedBtn = $("<button>").text(searchText).addClass('waves-effect waves-light btn saved-btn').attr('search', searchType);
 
     // apend to page
     $('#saved-search').append(savedBtn);
