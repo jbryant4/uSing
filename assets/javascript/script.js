@@ -41,7 +41,6 @@ function deezerSearchApi(searchType, searchText) {
                         }
                     });
             };
-
         });
 };
 
@@ -92,7 +91,6 @@ function displaySongList(data, searchType) {
         $('.track-list').append(trackDiv)
     }
     //! still need the tracks to show up nice 
-
 };
 
 
@@ -304,7 +302,7 @@ $('.searchBtn').each(function () {
         // send to search function
         deezerSearchApi(searchType, searchText);
         }
-    });
+    });    
 });
 
 // delete button function
