@@ -39,17 +39,19 @@
         <!-- content -->
         <!--! this area will have two hidden sections that will appear depending on what button is clicked -->
         <!-- For Artist Seach content is 3 rows: bio/ track info / events-->
-        <div hidden class="col s12 l9 artist-search">            
+        <div hidden class="col s12 l9 artist-search">
+            <!-- bio will have 2 colums: artist/bio -->
             <div class="row">
-                <div class="col s12 bio" id="bio-thumb"></div>                
+                <div class="col s3 bio" id="bio-thumb"></div>                
                 <div class="col s9 bio" id="bio-text"></div>                
             </div>
             
             <div class="row">
                 <div class="col s12 l12 track-list"></div>                
-                <div class="col s12 l6 lyrics"></div>                
+                <div class="col s12 l6 lyrics"></div>
+                
             </div>
-            
+            <!--event row will have generated colums-->
             <div class="sections-search" id="future-events"></div>
         </div>
         <!-- For Track search content is 4 rows: track list / track / album / lyrics -->
