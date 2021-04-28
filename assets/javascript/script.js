@@ -90,7 +90,6 @@ function displaySongList(data, searchType) {
 
         $('.track-list').append(trackDiv)
     }
-    //! still need the tracks to show up nice 
 };
 
 
@@ -127,9 +126,9 @@ function audiodbApi(artist) {
 
 // function to display the bio and rhumb to the page 
 function buildBio(bio, thumb, artist) {
-
+ 
     // set variables 
-    var bioArtist = $('<h4>').text(artist + ' ').addClass('sectionTitle');
+    var bioArtist = $('<h4>').text(artist[0].toUpperCase() + artist.slice(1).toLowerCase()).addClass('sectionTitle generated');
     var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist', 'id': 'bio-img' }).addClass('generated');
     var bioText = $('<p>').text(bio).addClass('generated');
 
@@ -212,7 +211,12 @@ function lyricApi(song, artist) {
                     .then(function (data) {
                         displayLyrics(data.lyrics) // grab lyrics 
                     });
-            };
+            }else{
+
+                var error = $('<p>').text('No Lyrics for this track. Sorry!').addClass('generated');
+                $('.lyrics').html("");
+                $('.lyrics').append(error);
+            }
         });
 };
 
@@ -316,7 +320,6 @@ $('#delete-btn').on('click', function (event) {
     localStorage.clear();
 });
 
-//  ! note to self add class generated to all generated content so that i can clear you you with out lines and lines of code 
 
 // function for when search buttons are clicked 
 $('#saved-search').on('click', 'button', function (event) {
