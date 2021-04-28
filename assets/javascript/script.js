@@ -65,7 +65,7 @@ function displaySongList(data, searchType) {
 
         var trackInfo = $('<div>').addClass('track-info generated')
         var imgDiv = $('<div>').addClass('img-div generated')
-        var trackDiv = $('<div>').addClass('track generated')
+        var trackDiv = $('<div>').addClass('track generated').attr({ artist: songArtist, title: songTitle })
 
 
         var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
@@ -200,6 +200,7 @@ function futureEvents(data) {
 
 // Api call for Lyrics (song lyrics)
 function lyricApi(song, artist) {
+    debugger
     var apiUrl = 'https://api.lyrics.ovh/v1/' + artist + '/' + song
 
     fetch(apiUrl)
@@ -288,21 +289,21 @@ $('.searchBtn').each(function () {
             alert('need search input') //! add modal
             window.location.reload();
         } else {
-        // grab input text and button text
-        var searchType = $(this).text().trim();
-        var searchText = $('#search-bar').val().trim();
+            // grab input text and button text
+            var searchType = $(this).text().trim();
+            var searchText = $('#search-bar').val().trim();
 
 
 
-        // clear text area 
-        $('#search-bar').val('');
+            // clear text area 
+            $('#search-bar').val('');
 
-        // save search function
-        saveSearch(searchType, searchText)
-        // send to search function
-        deezerSearchApi(searchType, searchText);
+            // save search function
+            saveSearch(searchType, searchText)
+            // send to search function
+            deezerSearchApi(searchType, searchText);
         }
-    });    
+    });
 });
 
 // delete button function
@@ -342,17 +343,14 @@ function trackDisplay(song, artist, album) {
 }
 
 // play track preview
-$('.track-list').on('click', 'button', function (event) {
-    event.preventDefault();
+$('.track-list').on('click', 'div', function (event) {
+    console.log(this)
 
     var songTitle = $(this).attr('title');
     var songArtist = $(this).attr('artist');
-    var songAlbum = $(this).attr('album');
+
 
     lyricApi(songTitle, songArtist);
-
-    trackDisplay(songTitle, songArtist, songAlbum);
-
 });
 
 
