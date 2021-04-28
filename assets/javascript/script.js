@@ -116,7 +116,7 @@ function audiodbApi(artist) {
                             var artistThumb = data.artists[0].strArtistThumb  //grab thumb photo
 
                             // build bio section
-                            buildBio(artistBio, artistThumb,);
+                            buildBio(artistBio, artistThumb, artist);
                             tmApi(artist)
 
                         };
@@ -126,13 +126,15 @@ function audiodbApi(artist) {
 };
 
 // function to display the bio and rhumb to the page 
-function buildBio(bio, thumb) {
+function buildBio(bio, thumb, artist) {
 
     // set variables 
+    var bioArtist = $('<h4>').text(artist + ' ').addClass('sectionTitle');
     var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist', 'id': 'bio-img' }).addClass('generated');
     var bioText = $('<p>').text(bio).addClass('generated');
 
     // make a bio div
+    $('.bio-area').prepend(bioArtist);
     $('#bio-thumb').append(bioImg);
     $('#bio-text').append(bioText);
 
@@ -200,7 +202,7 @@ function futureEvents(data) {
 
 // Api call for Lyrics (song lyrics)
 function lyricApi(song, artist) {
-    debugger
+    
     var apiUrl = 'https://api.lyrics.ovh/v1/' + artist + '/' + song
 
     fetch(apiUrl)
@@ -343,7 +345,7 @@ function trackDisplay(song, artist, album) {
 }
 
 // play track preview
-$('.track-list').on('click', 'div', function (event) {
+$('.track-list').on('click', '.track', function (event) {
     console.log(this)
 
     var songTitle = $(this).attr('title');
