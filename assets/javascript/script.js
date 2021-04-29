@@ -222,8 +222,6 @@ function displayLyrics(lyrics) {
 
     var ogLyrics = $('<pre>').text(lyrics).addClass('generated')
     $('.lyrics').append(ogLyrics);
-
-
 }
 
 
@@ -242,7 +240,7 @@ function loadSearch() {
             searchType = searchList[i].searchType;
             // create button with class
             var savedBtn = $("<button>").text(searchText).addClass('waves-effect waves-light btn saved-btn').attr('search', searchType);
-            
+
             // apend to page
             $('#saved-search').append(savedBtn);
             ;
@@ -290,21 +288,21 @@ $('.searchBtn').each(function () {
             alert('need search input') //! add modal
             window.location.reload();
         } else {
-        // grab input text and button text
-        var searchType = $(this).text().trim();
-        var searchText = $('#search-bar').val().trim();
+            // grab input text and button text
+            var searchType = $(this).text().trim();
+            var searchText = $('#search-bar').val().trim();
 
 
 
-        // clear text area 
-        $('#search-bar').val('');
+            // clear text area 
+            $('#search-bar').val('');
 
-        // save search function
-        saveSearch(searchType, searchText)
-        // send to search function
-        deezerSearchApi(searchType, searchText);
+            // save search function
+            saveSearch(searchType, searchText)
+            // send to search function
+            deezerSearchApi(searchType, searchText);
         }
-    });    
+    });
 });
 
 // delete button function
@@ -354,9 +352,45 @@ $('.track-list').on('click', 'button', function (event) {
     lyricApi(songTitle, songArtist);
 
     trackDisplay(songTitle, songArtist, songAlbum);
-
 });
 
+//$('#toggle-btn').on('click', toggleTheme())
+
+function toggleTheme() {
+    // Select your element using indexing.
+    var theme = document.getElementById('theme');
+    var imgLogo = document.getElementById('logo-img');
+    // var textBtn = document.getElementById('toggle-btn')
+    // Change the value of href attribute 
+    // to change the css sheet.
+    if (theme.getAttribute('href') == './assets/style/style.css') {
+        theme.setAttribute('href', './assets/style/style-dark.css');
+
+    } else if (theme.getAttribute('href') == './assets/style/style-dark.css') {
+        theme.setAttribute('href', './assets/style/style.css');
+    }
+
+    function textBtn() {
+        var text = document.getElementById("toggle-btn");
+        if (text.innerHTML === "DARK MODE") {
+            text.innerHTML = "LIGHT MODE";
+        } else {
+            text.innerHTML = "DARK MODE";
+        }
+    }
+    textBtn()
+
+
+    // Change the value of src to change imgs
+    if (imgLogo.getAttribute('src') == './assets/images/logo-black.png') {
+        imgLogo.setAttribute('src', './assets/images/logo.png');
+
+    } else if (imgLogo.getAttribute('src') == './assets/images/logo.png') {
+        imgLogo.setAttribute('src', './assets/images/logo-black.png');
+    }
+
+
+}
 
 
 loadSearch();
