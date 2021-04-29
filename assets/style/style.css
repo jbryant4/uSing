@@ -10,6 +10,14 @@ body {
     pointer-events: fill;       
 }
 
+
+.sectionTitle {
+    width: 80%;
+    text-align: center;
+    border-bottom: 2px solid white;
+    margin: 25px auto;
+}
+
 .trackslyrics {
     margin: 5px;
     background-color: white;
@@ -165,7 +173,7 @@ button {
 
 #longer-track {
     max-height: 750px;    
-    margin-top: 100px
+    margin-top: 25px
 }
 
 .track {

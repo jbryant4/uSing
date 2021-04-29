@@ -65,7 +65,7 @@ function displaySongList(data, searchType) {
 
         var trackInfo = $('<div>').addClass('track-info generated')
         var imgDiv = $('<div>').addClass('img-div generated')
-        var trackDiv = $('<div>').addClass('track generated')
+        var trackDiv = $('<div>').addClass('track generated').attr({ artist: songArtist, title: songTitle })
 
 
         var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
@@ -90,7 +90,6 @@ function displaySongList(data, searchType) {
 
         $('.track-list').append(trackDiv)
     }
-    //! still need the tracks to show up nice 
 };
 
 
@@ -116,7 +115,7 @@ function audiodbApi(artist) {
                             var artistThumb = data.artists[0].strArtistThumb  //grab thumb photo
 
                             // build bio section
-                            buildBio(artistBio, artistThumb,);
+                            buildBio(artistBio, artistThumb, artist);
                             tmApi(artist)
 
                         };
@@ -126,13 +125,15 @@ function audiodbApi(artist) {
 };
 
 // function to display the bio and rhumb to the page 
-function buildBio(bio, thumb) {
-
+function buildBio(bio, thumb, artist) {
+ 
     // set variables 
+    var bioArtist = $('<h4>').text(artist[0].toUpperCase() + artist.slice(1).toLowerCase()).addClass('sectionTitle generated');
     var bioImg = $('<img>').attr({ 'src': thumb, 'alt': 'Artist', 'id': 'bio-img' }).addClass('generated');
     var bioText = $('<p>').text(bio).addClass('generated');
 
     // make a bio div
+    $('.bio-area').prepend(bioArtist);
     $('#bio-thumb').append(bioImg);
     $('#bio-text').append(bioText);
 
@@ -202,6 +203,7 @@ function futureEvents(data) {
 
 // Api call for Lyrics (song lyrics)
 function lyricApi(song, artist) {
+    
     var apiUrl = 'https://api.lyrics.ovh/v1/' + artist + '/' + song
 
     fetch(apiUrl)
@@ -211,7 +213,12 @@ function lyricApi(song, artist) {
                     .then(function (data) {
                         displayLyrics(data.lyrics) // grab lyrics 
                     });
-            };
+            }else{
+
+                var error = $('<p>').text('No Lyrics for this track. Sorry!').addClass('generated');
+                $('.lyrics').html("");
+                $('.lyrics').append(error);
+            }
         });
 };
 
@@ -313,7 +320,6 @@ $('#delete-btn').on('click', function (event) {
     localStorage.clear();
 });
 
-//  ! note to self add class generated to all generated content so that i can clear you you with out lines and lines of code 
 
 // function for when search buttons are clicked 
 $('#saved-search').on('click', 'button', function (event) {
@@ -342,16 +348,15 @@ function trackDisplay(song, artist, album) {
 }
 
 // play track preview
-$('.track-list').on('click', 'button', function (event) {
-    event.preventDefault();
+$('.track-list').on('click', '.track', function (event) {
+    console.log(this)
 
     var songTitle = $(this).attr('title');
     var songArtist = $(this).attr('artist');
-    var songAlbum = $(this).attr('album');
 
-    lyricApi(songTitle, songArtist);
 
     trackDisplay(songTitle, songArtist, songAlbum);
+    lyricApi(songTitle, songArtist);
 });
 
 //$('#toggle-btn').on('click', toggleTheme())
