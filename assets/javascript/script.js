@@ -65,7 +65,7 @@ function displaySongList(data, searchType) {
 
         var trackInfo = $('<div>').addClass('track-info generated')
         var imgDiv = $('<div>').addClass('img-div generated')
-        var trackDiv = $('<div>').addClass('track generated')
+        var trackDiv = $('<div>').addClass('track generated').attr({title:songTitle, artist:songArtist})
 
 
         var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
@@ -211,6 +211,11 @@ function lyricApi(song, artist) {
                     .then(function (data) {
                         displayLyrics(data.lyrics) // grab lyrics 
                     });
+            }else{
+
+                var error = $('<p>').text('No Lyrics for this track. Sorry!').addClass('generated');
+                $('.lyrics').html("");
+                $('.lyrics').append(error);
             };
         });
 };
@@ -342,16 +347,13 @@ function trackDisplay(song, artist, album) {
 }
 
 // play track preview
-$('.track-list').on('click', 'button', function (event) {
+$('.track-list').on('click', '.track', function (event) {
     event.preventDefault();
 
     var songTitle = $(this).attr('title');
     var songArtist = $(this).attr('artist');
-    var songAlbum = $(this).attr('album');
 
     lyricApi(songTitle, songArtist);
-
-    trackDisplay(songTitle, songArtist, songAlbum);
 });
 
 //$('#toggle-btn').on('click', toggleTheme())
