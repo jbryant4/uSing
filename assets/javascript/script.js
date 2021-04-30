@@ -69,9 +69,8 @@ function displaySongList(data, searchType) {
 
 
         var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
-        var trackTitle = $('<p>').text(songTitle).addClass('generated');
-        var trackArtist = $('<p>').text('By: ' + songArtist).addClass('generated');
-
+        var trackTitle = $('<p>').text(songTitle + ' By: ' + songArtist).addClass('generated');
+    
 
         // ! TEST 
         var songBtn = $('<audio>').addClass('generated').attr('controls', '');
@@ -82,8 +81,7 @@ function displaySongList(data, searchType) {
         imgDiv.append(trackAlbumCover);
 
         trackInfo.append(trackTitle);
-        trackInfo.append(trackArtist);
-
+       
         trackDiv.append(imgDiv);
         trackDiv.append(trackInfo);
         trackDiv.append(songBtn);
