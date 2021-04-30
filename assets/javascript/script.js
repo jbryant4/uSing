@@ -65,12 +65,12 @@ function displaySongList(data, searchType) {
 
         var trackInfo = $('<div>').addClass('track-info generated')
         var imgDiv = $('<div>').addClass('img-div generated')
-        var trackDiv = $('<div>').addClass('track generated').attr({title:songTitle, artist:songArtist})
+        var trackDiv = $('<div>').addClass('track generated').attr({ title: songTitle, artist: songArtist })
 
 
         var trackAlbumCover = $('<img>').attr({ 'src': songAlbumCover, 'alt': 'Album Cover', 'id': 'album-cover' }).addClass('generated');
         var trackTitle = $('<p>').text(songTitle + ' By: ' + songArtist).addClass('generated');
-    
+
 
         // ! TEST 
         var songBtn = $('<audio>').addClass('generated').attr('controls', '');
@@ -81,7 +81,7 @@ function displaySongList(data, searchType) {
         imgDiv.append(trackAlbumCover);
 
         trackInfo.append(trackTitle);
-       
+
         trackDiv.append(imgDiv);
         trackDiv.append(trackInfo);
         trackDiv.append(songBtn);
@@ -105,8 +105,8 @@ function audiodbApi(artist) {
                         if (data.artists === null) {
 
                             // put modal here 
-                            alert('not and artist');
-                            location.reload();
+                            var alert = 'No artist was found with that name. Here are some tracks with that search input';
+                            modalFunction(alert)
 
                         } else {
 
@@ -209,7 +209,7 @@ function lyricApi(song, artist) {
                     .then(function (data) {
                         displayLyrics(data.lyrics) // grab lyrics 
                     });
-            }else{
+            } else {
 
                 var error = $('<p>').text('No Lyrics for this track. Sorry!').addClass('generated');
                 $('.lyrics').html("");
@@ -288,8 +288,9 @@ $('.searchBtn').each(function () {
         var searchText = $('#search-bar').val().trim();
         // make sure that their is text in search bar
         if (searchText === '') {
-            alert('need search input') //! add modal
-            window.location.reload();
+            var alert = 'Please make sure that there is a search value'
+            modalFunction(alert);
+
         } else {
             // grab input text and button text
             var searchType = $(this).text().trim();
@@ -390,6 +391,28 @@ function toggleTheme() {
     }
 
 
+}
+
+function modalFunction(alert) {
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    $('#modal-p').empty();
+    $('#modal-p').text(alert);
+
+    modal.style.display = "block";
+
+    span.onclick = function () {
+        modal.style.display = "none";
+        
+    };
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            
+        }
+    }
 }
 
 

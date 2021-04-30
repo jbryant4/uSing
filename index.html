@@ -8,16 +8,26 @@
 
     <title>Project One</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet"  id="theme" href="./assets/style/style.css">
+    <link rel="stylesheet" id="theme" href="./assets/style/style.css">
 </head>
 
 <body>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modal-p">Some text in the Modal..</p>
+        </div>
+
+    </div>
     <div class="container row s12 " style="display: flex; flex-wrap: wrap;" id="page-contents">
         <!-- form has 3 rows logo / form / history-->
         <div class="col s12 l3" id="form-section">
             <!-- logo -->
             <div id="form-img">
-                <a href="./index.html">  <img id="logo-img" src="./assets/images/logo-black.png" alt="" />
+                <a href="./index.html"> <img id="logo-img" src="./assets/images/logo-black.png" alt="" />
                 </a>
             </div>
             <!-- form -->
@@ -33,10 +43,11 @@
             <div id="saved-search"></div>
             <!-- delete button -->
             <div id="delete-div">
-                <a class="waves-effect waves-light btn deleteBtn" id="delete-btn">Delete History</a>                
+                <a class="waves-effect waves-light btn deleteBtn" id="delete-btn">Delete History</a>
             </div>
             <div id="toggle-theme-btn">
-                <button onclick="toggleTheme()" class="waves-effect waves-light btn toggleBtn" id="toggle-btn">DARK MODE</button>
+                <button onclick="toggleTheme()" class="waves-effect waves-light btn toggleBtn" id="toggle-btn">DARK
+                    MODE</button>
             </div>
         </div>
         <!-- content -->
